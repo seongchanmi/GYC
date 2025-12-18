@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>입력 화면</title>
+<!--   초기화 css: 모든 것을 초기화해주기 때문에 반드시 css 중에 제일 먼저 작성-->
+<!--   th: thymeleaf의 축약형, "@{}"은 약속된 형식, /css/reset.css : /css/안에 있는 reset.css를 찾아라-->
+<!--    스프링부트에서는 /static 폴더를 자동으로 정적 리소스로 인식
+        타임리프가 자동으로 localhost:8080/css/reset.css 경로를 인식-->
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+<!--    스타일 css-->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body>
+    <h1 class="logo">입력 화면 input.html</h1>
+    <form th:action="@{/result}" method="get" class="formWrapper">
+        <label for="txt1">입력 값: </label>
+        <input type="text" id="txt1" name="val">  <!-- name="val" 에서 val이 결과창의 주소로 result?val로 나옴-->
+        <button type="submit" class="primary-btn">GET으로 전송</button>
+    </form>
+
+    <form th:action="@{/result}" method="post" class="formWrapper">
+    <label for="txt2">입력 값: </label>
+    <input type="text" id="txt2" name="val">
+    <button type="submit" class="primary-btn">POST으로 전송</button>
+    </form>
+</body>
+</html>

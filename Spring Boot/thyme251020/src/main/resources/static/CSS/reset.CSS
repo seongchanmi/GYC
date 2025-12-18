@@ -1,0 +1,55 @@
+@charset "utf-8";
+/* @charset "utf-8";은 수동으로 작성해줘야 하고, 문서의 가장 위에 적어줘야 함 */
+
+
+/* 초기화 css */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 다중 선택자: 여러 선택자에 같은 속성과 값 부여. 쉼표로 표기 */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit; /* 상속 */
+  outline: none;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
+
+a {
+    color: inherit; /* 상속: body의 값이나 부모의 값을 상속 받겠다 */
+    text-decoration: none; /* 밑줄 삭제 */
+}

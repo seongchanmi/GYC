@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>output</title>
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+<!--    여기 안에 스타일을 작성해주면 여기 안에서 밖에 사용 못함 -->
+    <style>
+        .bold-style {
+        font-weight: bold;
+        font-size: 1.5em; /* 부모 요소의 글자 크기 기준으로 1.5배 */
+        border-left: 3px solid red;
+        padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="logo">출력 화면</h1>
+    <p class="bold-style" th:text="${value}">전송된 값 출력</p>
+    <a th:href="@{/input}" class="primary-btn">입력된 화면으로 이동</a>
+<!--herf="#" 임시링크 기호
+    "/" : 최상위 루트
+    a: 다른 페이지로에 단순한 이동
+    bottom:  데이터와 함께 이동? 전송 -->
+</body>
+</html>

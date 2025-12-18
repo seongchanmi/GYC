@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>입력 내용 확인</title>
+    <sytle th:replace="layout/style"></sytle>
+</head>
+<body>
+<div th:replace="layout/navigation"></div>
+<h1>입력 내용 확인</h1>
+<ul>
+    <li>이름: <span th:text="${dto.name}">이름</span></li>
+    <li>아이디: <span th:text="${dto.id}">아이디</span></li>
+    <li>연락처: <span th:text="${dto.phone}">연락처</span></li>
+    <li>이메일: <span th:text="${dto.email}">이메일</span></li>
+</ul>
+<a th:href="@{/signup}">입력 화면으로 돌아가기</a>
+<div th:replace="layout/footer :: bottom"></div>
+</body>
+</html>

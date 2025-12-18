@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UserInput</title>
+    <style th:replace="layout/style">
+        .fieldErr { color:red; fond-weight:bold; border: 3px solid red }
+        .fontErr {color:red; font-style:italic};
+    </style>
+</head>
+<body>
+<div th:replace="layout/navigation"></div>
+<form th:action="@{/output}" th:object="${userDto}" method="post">
+    <h1>입력 화면</h1>
+    <label for="name">이름: </label>
+<!--    th:object를 사용하지 않을 때 th:value="${userDto.name}" 밸류를 쓰거나 필드를 쓰거나-->
+    <input type="text" name="name" id="name" maxlength="6" th:value="${name}" th:classappend="${#fields.hasErrors('name')} ? ' fieldErr'"> <br>
+    <!--           field랑 value를 한줄에 쓰면 에러가 난대-->
+    <p class="fontErr" th:errors="*{name}"></p>
+    <hr>
+
+<!--        th:object 사용시 th:field="*{age}"-->
+    <label for="age">나이: </label>
+    <input type="number" th:field="*{age}" name="age" id="age" th:classappend="${#fields.hasErrors('age')} ? ' fieldErr'"><br>
+    <p class="fontErr" th:errors="*{age}"></p>
+    <hr>
+
+
+    <label for="phone">연락처: </label>
+    <input type="tel" th:field="*{phone}" name="phone" id="phone" th:classappend="${#fields.hasErrors('phone')} ? ' fieldErr'"><br>
+    <p class="fontErr" th:errors="*{phone}"></p>
+    <hr>
+
+
+    <label for="email">이메일: </label>
+    <input type="email" th:field="*{email}" name="email" id="email" th:classappend="${#fields.hasErrors('email')} ? ' fieldErr'"><br>
+    <p class="fontErr" th:errors="*{email}"></p>
+    <hr>
+
+    <label for="address">주소: </label>
+    <input type="text" th:field="*{address}" name="address" id="address" th:classappend="${#fields.hasErrors('address')} ? ' fieldErr'"><br>
+    <p class="fontErr" th:errors="*{address}"></p>
+
+    <button type="submit">전송</button>
+
+</form>
+<!-- ::bottom -> footer.html 문서의 bottom 영역만 삽입하겠다. 는 의미-->
+<div th:replace="layout/footer :: bottom"></div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>form</title>
+<!--    폰트링크를 복사해서 title 밑에 붙여넣기-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Diphylleia&display=swap" rel="stylesheet">
+
+<!--    스타일 내부 선언-->
+<!--    style 태그를 쓰면 그 안의 영역은 css의 영역이 됨-->
+    <style>
+        /* css의 주석 */
+         body {/* 태그 선택자: 태그 요소를 그대로 가져와 사용 */
+         font-family: "Black Han Sans", sans-serif; /* 서체 종료 */
+         font-size: 30px; /*서체 사이즈 */
+         font-weight: 400; /* 서체 굵기 */
+         line-height: 1.6; /* 행간 */
+
+         margin: 0; /* 기준 요소 바깥 여백 */
+         padding: 0; /* 기준 요소 안쪽 여백 */
+        }
+        body * {/* 하위 선택자: body 태그 하위에 있는 모든 태그에 적용," body * {" -> 띄어쓰기 필수!!! 안하면 오류^^*/
+            margin: 0; padding: 0;
+        }
+        .wrapper { /* 클래스 선택자: 한 문서 안에서 여러번 사용 가능 */
+              font-family: "Diphylleia", serif;
+              color: orange; /* 글자 색상 */
+              padding: 20px;
+            }
+        #formStyle { /*아이디 선택자: 한 문서 안에서 이 식별자 명으로 한 번만 사용 가능 */
+         border: 7px solid black; /*테두리: 선굵기 선스타일 선색 */
+         padding: 10px;
+    </style>
+</head>
+<body>
+    <!-- header: 문서의 머릿말, 문서 내에서 여러번 작성 가능 -->
+    <header style = "background-color: grey" class="wrapper">
+<!--       <header style = "background-color: #dfdfdf"> 인라인 형식으로 스타일 주기 -->
+        <h1 class="logo">form 기본</h1>
+        <!-- nav 내비게이션 -->
+        <nav>
+            <!--
+            ul: 순서 없는 목록, li와 꼭 함께 사용
+            주로 메뉴 작성시 사용
+            ul와 li 사이에는 다른 게 들어갈 수 없음
+             -->
+            <ul>
+                <li><a href="#">메인으로 이동</a></li>
+                <li><a href="#">about으로 이동</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- main: 문서의 본문, 한 문서 안에 한 번만 작성 가능하며 다른 레이아웃 태그보다 상위 개념으로, 하위에 작성될 수 없음, main은 문서 안에서 딱 한 번만 사용할 수 있음   -->
+    <main>
+        <!--
+        form 태그는 반드시 작성
+        action="전송할 곳" method="http"   -> 이 속성은 생략이 가능은 함
+        form: 동적인 성격을 가지고 있고, 다른 태그와 커뮤니케이션이 이루어짐
+        각각의 태그들이 form으로 둘려싸여 있어야 기능을 수행함
+        -->
+        <form action="/" method="get" id="formStyle">
+            <p>
+            <label for="userName">이름: </label>
+<!--                label: 입력 박스말고, "이름:" 을 눌러도 자동으로 입력박스를 연동시켜서 눌러줌-->
+<!--                label for와 input id가 반드시 같은 이름이어야 함-->
+<!--                id는 이 문서 안에서 한 번만 사용할 수 있는 고유한 식별자 (id "userName"을 한 번만 사용할 수 있다고) -->
+            <input type="text" id="userName" name="username" placeholder="이름을 작성하세요" required>
+<!--                placeholder: 입력 박스, 칸 생성. 그 안에 문구 입력-->
+<!--                required "필수 작성란" 작성하지 않으면 넘어가지 않음-->
+            </p>
+
+            <p>
+                <label for="userPW">비밀번호: </label>
+                <input type="password" id="userPW" name="userpw" placeholder="비밀번호를 입력하세요">
+            </p>
+<!--            hr: 구분선-->
+
+            <p>
+<!--                br: 줄바꿈 태그 ("열린태그", "빈태그" -->
+                단 하나의 선택만 가능<br>
+                <input type="radio" name="fruits" value="한라봉" checked>한라봉
+<!--                checked: 열었을 때, 선택된 상태로 보여줌-->
+                <input type="radio" name="fruits" value="진지향">진지향
+                <input type="radio" name="fruits" value="설국향">설국향
+<!--                radio: 개중에 선택이 가능함. 단, name이 전부 같아야 함. 동그라미 버튼-->
+                여러개 선택 가능
+                <input type="checkbox" name="animal" value="강아지"> 강아지
+                <input type="checkbox" name="animal" value="고양이"> 고양이
+<!--                checkbox: 중복 선택 가능함. 네모버튼-->
+            </p>
+            <p>
+                드롭다운 메뉴
+                <select name="apple" id="apple">
+                    <option value="감홍">감홍</option>
+                    <option value="시나노" selected>시나노</option>
+<!--                    selected 선택지에서 제일 위에 띄워줌-->
+                    <option value="부사">부사</option>
+                </select>
+            </p>
+            <p>파일 전송: <input type="file" name="addFile" id="addFile"></p>
+            <p>
+                <button type="submit">전송</button>
+                <button type="reset">취소</button>
+            </p>
+        </form>
+    </main>
+
+    <footer class="wrapper">바닥글로 사이트의 정보 표기 영역</footer>
+</body>
+</html>

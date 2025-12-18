@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>spread</title>
+</head>
+<body>
+    <script>
+        const arr = ['한라봉', '타이벡', '진지향'];
+        const arr1 = arr.concat(); // .concat() >> 복사한다! 메서드의 형태, 배열 안에 직접 넣어서 사용하기엔 조금 불편 
+        const arr2 = [...arr]; // ...(반드시 점 세 개)스프레드 연산자: 배열이나 객체를 원본 훼손 없이 복사
+
+        console.log(arr1);
+        console.log(arr2);
+
+        console.log("==============");
+        const arr3 = arr.concat('감홍', '부사');
+        const arr4 = [...arr, '망고', '파인애플'];
+        const arr5 = ['망고', '파인애플', ...arr,];
+
+        console.log(arr3);
+        console.log(arr4);
+        console.log(arr5);
+
+        console.log("========");
+        const animal = {
+            name: '솜이',
+            age: 5
+        }
+        const dog = {...animal}
+        console.log(dog); // 객체를 복사해 반환
+
+        const cat = {...animal, name: '치즈냥', age:1} 
+        console.log(cat); // 뒤에 프로퍼티(키:값)을 추가하면 갱신됨
+
+        console.log("==============");
+        const data = [
+            { id:1, name: '한라봉', age: 5},
+            { id:2, name: '진지향', age: 3},
+            { id:3, name: '타이벡', age: 2},
+            { id:4, name: '윈터프린스', age: 1}
+        ];
+        console.log(data);
+
+        const add = [...data, {id:5, name:'천혜향', age:3}];
+        console.log(add);
+
+        const changeName = add.map(elem => {
+            if(elem.id === 1) { // ===는 엄격한 비교(데이터타입까지 비교)
+                return { ...elem, name : '감홍' }; // ...elem 를 넣어주면, 값을 유지하면서 갱신됨. 먼말인지 모르겠으면 없이 출력해보삼. ...elem을 안 넣으면 name 말고 다른 데이터 다 날라감
+            } else {
+                return elem;
+            }
+        });
+        console.log(changeName);
+
+        // 위의 if문을 삼항연산자로~~
+        const result = add.map( item => item.id === 2 ? {...item, name : '유라조생'} : item);
+        console.log(result);
+    </script>
+</body>3ㄷㅋㅌ1
+</html> 

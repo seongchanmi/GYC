@@ -1,0 +1,8 @@
+package com.example.todos.repository;
+
+import com.example.todos.entity.Todo;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TodoRepository extends JpaRepository<Todo, Integer> {
+// <entity이름, PK의 종류>
+}

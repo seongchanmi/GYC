@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>출력 화면</title>
+    <style>
+        body { margin: 0;}
+       ul {list-style:none; margin:0; padding:0;}
+       /* bootstrap 적용시 위의 코드는 생략 가능 */
+       .gnb {display:flex; background-color:orange;}
+       .gnb li a {text-decoration: none; color: inherit; display: inline-block; padding:20px 10px;}
+       .gnb li a:hover { background-color:maroon; color:#fff;}
+    </style>
+</head>
+<body>
+<div th:replace="layout/navigation"></div>
+<h1>출력 화면</h1>
+<ul>
+<li>이름: <span th:text="${dto.name}">이름</span></li>
+<li>나이: <span th:text="${dto.age}">나이</span></li>
+<li>연락처: <span th:text="${dto.phone}">연락처</span></li>
+<li>이메일: <span th:text="${dto.email}">이메일</span></li>
+<li>주소: <span th:text="${dto.address}">주소</span></li>
+</ul>
+<a th:href="@{/input}">입력하기</a>
+<div th:replace="layout/footer :: bottom"></div>
+</body>
+</html>

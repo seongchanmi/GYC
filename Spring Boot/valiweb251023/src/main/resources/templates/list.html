@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+    <style th:replace="layout/style"></style>
+</head>
+<body>
+<h1>리스트</h1>
+<div th:replace="layout/navigation"></div>
+
+<!-- th:each -> 반복문
+th:each="item : ${fruit}" th:text="${item}"
+변수 fruits의 데이터 수만큼 순차적으로 item에 대입 후 출력 (th:text="${item}")
+
+th:if, th:unless -> if() else() 조건문
+-->
+<ul style="list-style:desc; margin:10px; ">
+    <li th:each="item : ${fruit}" th:text="${item}"></li>
+</ul>
+
+<p th:if="${fruit.size() > 3}">많이 사서 할인이 됩니다</p>
+<p th:unless="${fruit.size() > 3}">감사합니다</p>
+
+<div th:replace="layout/footer :: bottom"></div>
+</body>
+</html>

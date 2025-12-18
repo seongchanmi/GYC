@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+/* Pretendard 서체 사용을 위한 사전 설정 */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
+body {
+    font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    font-size: 20px;
+    color:#222;
+}
+
+.logo{
+    font-family: "Black Han Sans", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    /*font-weight: 400; 서체굵기*/
+    color: maroon;
+    text-align: center;
+}
+
+.formWrapper{
+    border: 6px double teal; /* 테두리: 선굵기 선스타일 색상 */
+    border-radius: 10px; /* 둥근모서리 */
+    width: 80vw; /* 가로값. 뷰포트(브라우저) 기준으로 80/100 비율 */
+    max-width: 700px; /* 최대 크기가 700px를 넘지 않음*/
+    margin: 20px auto; /* 블로 요소의 중앙 정렬. 요소의 바깥 여백. top+bottom left+right */
+    padding: 20px; /* 요소의 안쪽 여백 */
+}
+
+input[type="text"] { /* 속성 선택자: 요소[속성=값]. input 요소 중 type인 속성의 값이 text인 선택자 */
+    padding: 5px 10px 8px 10px; /* 안쪽 여백: top right bottom left*/
+    background-color: #d3d3d3;
+    border: 1px solid #000;
+    color: #f00;
+    width: 100%;
+    }
+
+.primary-btn {
+    border: none; /* 테두리 없앰 */
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px; /* 안쪽 여백 top+bottom left+right */
+    cursor: pointer;
+}
+
+.primary-bth:hover { /* hover: 마우스를 위에 올렸을 때*/
+    background-color: maroon;
+}
+
