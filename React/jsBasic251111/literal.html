@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>literal</title>
+</head>
+<body>
+    <script>
+        let a = 10;
+        let b = 20;
+        const sum = 0;
+        
+        let result1 = 'a: ' + a + '와 b: ' + b + ' 합: ' + (a + b);
+        console.log('result1: ' + result1);
+
+        let result2 = `a:${a}와 b:${b}의 합은 ${a + b}`;
+        console.log('result2=', result2);
+
+        let name = '한라봉';
+        let age = 20;
+        let addr = '용인시 모현읍';
+        let tel = '010-1234-1234';
+
+        let result3 = `${name}님의 나이는 ${age}이고 주소는 ${addr}이며 연락처는 ${tel}입니다.`;
+        console.log(result3);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>화살표 함수</title>
+</head>
+<body>
+    <!--
+    함수 선언 방식:
+     function 선언함수명(매개변수) {}
+     const 익명함수명 = function() {}
+
+    함수 호출:
+     선언함수명();
+     익명함수명();
+
+    화살표 함수(익명함수만 만들 수 있음)
+     () => {}
+     const 함수명 = () => {};
+
+    -->
+
+    <script>
+        function make1(){
+            alert('선언함수'); //실행시키기 전까지 안 뜸. 함수는 실행시키기 전까지 실행 안함
+        }
+
+        //함수 호출
+        // make1();
+
+        const make2 = function() {
+            alert('익명함수');
+        }
+
+        // make2();
+
+        const make3 = () => {
+            alert('화살표 함수')
+        }
+        // make3();
+
+        const make4 = (a) => console.log(a);
+        make4(100);
+        make4('문자열');
+        make4(false);
+
+        console.log("=================");
+        
+        const make5 = (a, b) => console.log(a+b);
+
+        make5(100, 200); // 300 결과값
+
+        console.log("=================");
+        const make6 = (a, b=300) => console.log(a+b); //a:100, b값을 주지 않으면 기본값으로 설정된 300이 대입됨
+        make6(100);
+
+    </script>
+</body>
+</html>

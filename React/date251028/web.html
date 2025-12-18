@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RequestParam vs ModelAttribute vs RequestBody</title>
+</head>
+<body>
+
+<!-- GET ?name=한라봉&age=22 쿼리 스트링. URL 주소에 붙음-->
+ <h2> 1. @RequestParam </h2>
+ <label for="userName">이름</label>
+ <input type="text" id="userName" value="한라봉"><br>
+ <label for="userAge">나이</label>
+ <input type="number" id="userAge" value="22"><br>
+ <button type="submit" id="btn-param">GET 호출</button>
+ <pre id="out-param"></pre>
+ <hr>
+
+<!-- form-urleancoded 폼데이터. <form> 전송과 동일-->
+<h2>2. @ModelAttribute</h2>
+<p>전통적인 방식 -> 서버 렌더링</p>
+<form th:action="@{/form}" method="post">
+    <label for="name">이름</label>
+    <input type="text" id="name" value="천혜향"><br>
+    <label for="age">나이</label>
+    <input type="number" id="age" value="33"><br>
+    <button type="submit">폼 전송(서버렌더링)</button>
+</form>
+<p id="serverMsg" th:text="${msg} ?: '서버 메시지 없음'">서버 메시지</p>
+<hr>
+
+<h2>2-2. AJAX -> JSON 응답</h2>
+<label for="myName">이름</label>
+<input type="text" id="myName" value="감홍">
+<label for="myAge">나이</label>
+<input type="number" id="myAge" value="15">
+<button type="submit" id="btn-myattribute">POST 호출(@ModelAttribute, JSON 응답)</button>
+<p id="out-myattribute"></p>
+<hr>
+
+<!-- JSON POST {"name":"타이벡", "age":20} JSON 데이터 파일 전송 -->
+<h2>3. @RequestBody</h2>
+<label for="rbName">이름</label>
+<input type="text" id="rbName" value="타이벡">
+<label for="myAge">나이</label>
+<input type="number" id="rbAge" value="20">
+<button type="submit" id="btn-rbAttribute">POST 호출(JSON)</button>
+<p id="out-rbAttribute"></p>
+
+<!-- 외부 js 문서 연결 -->
+<!-- <script src="script.js"></script> -->
+ <script>
+     // 자바스크립트의 영역, 스크립트로 작성할 수 있는 공간
+
+     /*
+DOM: Document Object Model 문서 객체 모델, 다양한 메서드들과 속성이 존재, 문서를 제어하는 객체
+
+document.querySelector("h2"); 문서의 쿼리형태의 선택자를 탐색(타입선택자)
+document.querySelector(".class"); 문서의 쿼리형태의 선택자를 탐색(클래스선택자)
+document.querySelector("#id"); 문서의 쿼리형태의 선택자를 탐색(아이디선택자)
+*/
+
+//(매개변수=파라미터) => document.querySelector(매개변수); 화살표함수
+// 상수const 상수명($) (매개변수=파라미터) => document.querySelector(매개변수); 
+const $ = (s) => document.querySelector(s);
+
+// 1. @RequestParam
+$("#btn-param").addEventListener('click', async () => { //함수를 작성한 이유는 클릭이벤트가 실행되면 함수가 실행되게 하기 위해. 클릭 전 바로 실행을 안되게 하기 위해서
+// "param이라는 버튼을 클릭하면 이 안에 있는 함수가 실행되게 해라"
+const name = $("#userName").value; // value는 폼 요소의 값을 가져오거나 반환. "id값이 userName인 것을 찾아라" (아이디선택자의 형식을 쓰고 있기 때문)
+
+const age = Number($("#userAge").value); //input으로 받는 값은 문자열이기 때문에 숫자 변환이 필요
+
+console.log(name, age); // 브라우저 콘솔창에서 확인
+
+// `` : 백틱. 작은 따옴표 아님. 숫자1 옆에 있는 자판임
+// encodeURIComponent() 한글은 깨지지않고 안전하게 URL용으로 인코딩해야 하기 때문에 사용하는 코드
+const url=`/api/user?name=${encodeURIComponent(name)}$age=${age}`;
+
+try {
+    const res = await fetch(url); // fetch(url, option); 서버로 HTTP 요청
+    console.log(res); //디버깅 작업을 하려면 console.log로.....
+    if(!res.ok) throw new Error(`HTTP 통신 ${res.status}`);
+
+    const data = await res.json(); // JSON 객체로 파싱. 받은 데이터를 JSON의 문법에 맞게끔 바꿔주겠다
+    console.log(data);
+    $("#out-param").textContent = JSON.stringify(data, null, 2); // JSON 객체를 문자열로 변경해 출력. null, 2 >> 2칸씩 공백 줘서 출력    
+
+} catch(e) {
+    $("#out-param").textContent = e.message;
+}
+});
+
+// 2-2 @ModelAttribute POST from-urlencoded
+$('#btn-myattribute').addEventListener('click', async() => {
+    const name = $('#myName'.value);
+    const age = Number($('#myAge').value);
+    const body = new URLSearchParams({name, age}); // "name=값&age=값" 형태로 자동 인코딩
+
+    try{
+        const res = await fetch('/api/form', {
+            method: 'POST', // 전송방식
+            headers: {'Content-Type':'application/x-www-form-urlencoded'}, // 헤더에 넣는 데이터 타입
+            body // 본문 폼 인코딩에 문자열 주입
+        });
+        if(!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        $('#out-myattribute').textContent = JSON.stringify(data, null, 2);
+
+    } catch(e)  {
+        $('#out-myattribute').textContent = e.message;
+    }
+    
+});
+
+// @RequestBody POST
+$('#btn-rbAttribute').addEventListener('click', async() => {
+const payload = {
+    name: $('#rbName').value,
+    age: Number($('#rbAge').value),
+}
+
+ try {
+    const res = await fetch('/api/postUser', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'}, // JSON으로 보낸다고 선언
+        body: JSON.stringify(payload) // JS 객체 -> JSON 문자열 로 보낸
+    });
+    if(!res.ok) throw new Error(`http 통신 오류 코드: ${res.status}`);
+    if(!res,ok) throw new Error('http 통신 오류 코드: '+ res.status);
+    const data = await res.json();
+    $('#out-rbAttribute').textContent = JSON.stringify(data, null, 2);
+ } catch (e) {
+   $('#out-rbAttribute').textContent = e.message;
+ }
+
+})
+
+
+ </script>
+
+</body>
+</html> 
+
+
+<!-- 
+AJAX
+-웹페이지를 새로고침하지 않고 서버와 데이터를 주고 받는 기술
+-비동기 통신의 핵심 개념
+jQuery(.ajax), fetch(), Axios
+
+fetch('/주소').then(res => res.text()).then(data => {data.....});
+
+async / await
+비동기 코드를 읽기 쉽게 만들어줌
+async: 반드시 함수 앞에 붙여야 함(선언)
+await: 결과를 가져올 때까지 대기.  fetch()가 완료될 때까지 대기
+-->

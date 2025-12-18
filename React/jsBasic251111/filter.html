@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>filter</title>
+</head>
+<body>
+    <h1>Array.prototype.filter()</h1>
+    <ul>
+        <li>필터 콜백 함수를 통과한 모든 요소를 모아 새로운 배열로 반환</li>
+        <li>arr.filter(callbackFn(element[,index])=>{})</li>
+        <li>탐색된 결과 모두 새로운 배열로 반환. false인 경우 빈 배열로 반환</li>
+    </ul>
+
+    <script>
+         const arr = [10, 20, 30, 40, 50];
+         const data = [
+            { id:1, name: '한라봉', age: 5},
+            { id:2, name: '진지향', age: 3},
+            { id:3, name: '타이벡', age: 2},
+            { id:4, name: '윈터프린스', age: 1}
+        ];
+
+        [10, 20, 30, 40, 50].filter(n => n >= 30);
+        const r1 = arr.filter(n => n >= 30);
+        console.log(r1);
+
+        //리액트에서 데이터 삭제시 많이 사용
+        const r2 = arr.filter(n => n != 30);
+        console.log(r2); // [10, 20, 40, 50] 30만 쏙 빼고 삭제 해줌
+
+        // id:2인 객체를 뺀 나머지를 출력
+        const r3 = data.filter(arr => arr.id != 2); // (n => n.id != 2) 로 써도 사용 가능
+        console.log(r3);
+    </script>
+</body>
+</html>

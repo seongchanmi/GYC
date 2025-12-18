@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>단락회로평가(단락평가)</title>
+</head>
+<body>
+    <h1>단락 평가</h1>
+    <ul>
+        <li>논리 연산자의 특성을 이용해 평가</li>
+        <li>truthy: 참인듯? 빈배열[], 빈객체{}</li>
+        <li>falsy(falsey): 거짓인듯? false, 0, -0(-1,-2,...), '', null, undefined(무언가를 집어넣어줬어야 했는데, 넣지 않아서 뜨는 오류?), NaN</li>
+    </ul>
+
+    <h2>boolean && 실행문</h2>
+    <ul>
+        <li>(조건) && 연산자: A, B 조건 모든 참인 경우</li>
+        <li>결과: true && 구문 -> && 뒤의 구문 실행</li>
+        <li>결과: false && 구문 -> &&의 결과(조건)가 거짓이면 &&의 뒤를 읽지 않고 종료<br>즉 실행되지 않음</li>
+    </ul>
+
+    <h2>boolean || 실행문</h2>
+    <ul>
+        <li>(조건) || 연산자: 둘 중 하나만 참인 경우</li>
+        <li>결과: true || 구문 -> || 뒤의 구문 실행되지 않고 멈춤</li>
+        <li>결과: false || 구문 -> || 앞의 결과가 거짓이면 뒤의 구문이 실행</li>
+        <li>
+            <pre>
+                if(){
+                } else if() {
+                } else if() {
+                } else{
+                }
+            </pre>
+        </li>
+        <li>
+            <pre>
+                조건 && 구문 && 구문 && 구문
+            </pre>
+        </li>
+    </ul>
+
+    <script>
+        if(11 > 10) console.log('참입니다.');
+
+        console.log('삼항연산자');
+        (11 > 10) ? console.log('참입니다.') : false;
+        (11 > 10) ? console.log('참입니다.') : null;
+        console.log('단락회로평가');
+        (11 > 10) && console.log('1. 참입니다'); // truthy한 상황. A조건이 참이면 뒤의 구문 실행
+        (11 < 10) && console.log('2. 참입니다'); // A조건이 거짓이면 AND 연산자는 뒤를 읽어보지 않아도 거짓이기 때문에 종료
+
+        (11 > 10) || console.log('1. 거짓입니다'); 
+        (11 < 10) || console.log('2. 거짓입니다');
+
+        console.log(
+            true && false && true
+        ); // false
+        console.log(
+            11 > 10 && 10 == 11 && '출력되지 않음'
+        ); // false
+        console.log(
+            11 > 10 && 10 != 11 && '출력됨'
+        ); // 출력됨
+
+        console.log('------- ||')
+        // A가 참이면 B를 탐색할 필요도 없이 멈춤
+        true || console.log('A가 참이면 이 내용은 반환하지 않음');
+        (11 > 10) || console.log('A가 참이면 이 내용은 반환하지 않음');
+        // A가 거짓이면 B까지 탐색해야 판단을 내릴 수 있기 때문에
+        false || console.log('A가 거짓이면 이 내용은 반환됨');
+
+        console.log(
+            '' || '여기서 멈춤' || 222
+        ); // 여기서 멈춤. false || true || true >> 두 번째의 '여기서 멈춤'이 true여서 거기서 멈춤
+        colsole.log(
+            '' || null || 222  
+        ); // 222. false || false || true >> 세 번째에서 멈춤
+    </script>
+</body>
+</html>

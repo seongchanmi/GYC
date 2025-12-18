@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>find</title>
+</head>
+<body>
+    <h1>Array.prototype.find()</h1>
+    <p>주어진 함수의 테스트를 통과하는 모든 요소를 모아 새로운 배열로 반환</p>
+    <script>
+        // arr.find(callback(elem[,index]));
+        // arr.find(현재요소 => 조건);
+        // 찾은 첫 번재 요소의 값 반환. 하나의 값만 반환
+
+        const arr = [10, 20, 30, 40, 50];
+        const data = [
+            { id:1, name: '한라봉', age: 5},
+            { id:2, name: '진지향', age: 3},
+            { id:3, name: '타이벡', age: 2},
+            { id:4, name: '윈터프린스', age: 1}
+        ];
+
+        const s1 = arr.find(elem => elem == 20);
+        console.log(s1);
+        const s2 = data.find(item => item.id == 3);
+        console.log(s2);
+
+        // .find()는 하나의 값만 반환하기 때문에 해당되지 않는 가장 첫 값 반환
+        const s3 = data.find(item => item.id != 3);
+        console.log(s3); // {id: 1, name: '한라봉', age: 5 }
+
+    </script>
+</body>
+</html>
