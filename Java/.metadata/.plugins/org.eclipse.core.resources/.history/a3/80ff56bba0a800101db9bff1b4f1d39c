@@ -1,0 +1,181 @@
+package ch1;
+
+import java.sql.Date;
+import java.util.List;
+import java.util.Scanner;
+
+public class YumController {
+	Scanner sc = new Scanner(System.in);
+	private YumService service = new YumService();
+
+	/*
+	 * public YumController(YumService service) { this.service = service; }
+	 */
+
+	public void run() {
+
+		while (true) {
+			System.out.println("1. 등록 | 2. 전체조회 | 3. 개별조회 | 4. 수정 | 5. 삭제 | 0. 종료");
+
+			int q = sc.nextInt();
+			sc.nextLine();
+			
+
+			switch (q) {
+			case 1:
+				addYum();
+				break;
+			case 2:
+				getAllYum();
+				break;
+			case 3:
+				getById();
+				break;
+			case 4:
+				updateYum();
+				break;
+			case 5:
+				deleteYum();
+				break;
+			case 0:
+				System.out.println("프로그램 종료");
+				sc.close(); // 프로그램 종료와 함께 스캐너의 기능을 닫아줌
+				return;
+			default:
+				System.out.println("잘못된 입력입니다."); // default에서 break는 생략이 가능함
+
+			}
+		}
+
+	}
+
+	private void addYum() {
+		System.out.println("상호명: ");
+		String name = sc.nextLine();
+		Date visitDate = inputDate("방문일 예시(2025-10-01) : ");
+		System.out.println("메뉴: ");
+		String menu = sc.nextLine();
+		int rating = inputRating("평점(1~5): ");
+		
+		// id, regDate는 DB에서 자동 생성
+		YumDTO dto = new YumDTO(name, visitDate, menu, rating);
+		
+	
+		boolean addResult = service.addYum(dto);
+		/*
+		if(addResult) {
+			System.out.println("등록 성공");
+		} else {
+			System.out.println("등록 실패");
+		}
+		*/
+		// 삼항연산자>>>>> 조건 ? true 일 때 : false 일 때, ?를 기준으로 구별
+		System.out.println(addResult ? "등록성공" : "등록실패");
+	}
+
+	//평점 입력 메서드
+	private int inputRating(String msg) {
+		
+		int rating = 0 ; // 초기값 설정. while문에서는 초기값을 설정해줘야 함? 이라고 하심
+		while(true) {
+			System.out.println(msg);
+			rating = sc.nextInt();
+			sc.nextLine();
+			
+			// 검증
+			if(1 <= rating && 5 >=rating ) { //A, B 조건 모두 만족할 때 참을 반환하는 식
+				return rating; 
+			} else {
+				System.out.println("1~5 사이의 숫자만 입력하세요");
+			}
+		}
+	}
+
+	// 날짜 입력 메서드
+	private Date inputDate(String msg) {
+
+		while (true) {
+			System.out.println(msg);
+			String input = sc.nextLine();
+
+			// 정규식(matches)으로 형식 우선 검사
+			if (input.matches("\\d{4}-\\d{2}-\\d{2}")) { // yyyy-MM-dd
+
+				/*
+				 * // Date.valueOf(String) 문자열을 날짜형으로 변환 return Date.valueOf(input); // 날짜 형식에
+				 * 맞는지 한 번 더 검증
+				 */
+
+				try {
+					return Date.valueOf(input);
+				} catch (Exception e) {
+					System.out.println("유효하지 않는 날짜입니다.");
+				}
+
+			} else {
+				System.out.println("날짜 형식이 올바르지 않습니다. 예)2025-09-30");
+			}
+
+		}
+
+	}
+
+	private void getAllYum() {
+		List<YumDTO> list = service.getAllYum();
+		outYumList(list);
+	}
+
+	private void outYumList(List<YumDTO> list) {
+		// null: 객체 자체가 없는 경우, .isEmpty(); : 객체는 있으나 데이터가 0
+		if (list == null || list.isEmpty()) { // null을 먼저 체크를 하고 나서 empty를 체크하는게 순서임!!!!!
+			System.out.println("맛집 내용 없음");
+		} else {
+			for (YumDTO dto : list) {
+				System.out.println(dto);
+			}
+		}
+	}
+
+	// 개별 조회 (id)
+	private void getById() {
+		System.out.println("조회할 id 입력: ");
+		int inputId = sc.nextInt();
+		YumDTO item = service.getByItem(inputId);
+		if(item != null) {
+			System.out.println(item);
+		} else {
+			System.out.println("해당 id는 없습니다.");
+		}
+	}
+
+	// 수정
+	private void updateYum() {
+		System.out.println("수정할 id 입력: ");
+		int inputId = sc.nextInt();
+		sc.nextLine();
+		YumDTO item = service.getByItem(inputId); //아이디로 해당 맛집 검색해서 반환 받음
+		
+		if(item == null) {
+			System.out.println("해당 id가 없습니다.");
+			return;
+		} 
+		
+		System.out.println("\n새 상호명(" + item.getName()+ "): ");
+		String name = sc.nextLine();
+		Date visitDate = inputDate("새 방문일(" + item.getVisitDate()+ "): ");
+		System.out.println("새 메뉴(" + item.getMenu()+ "): ");
+		String menu = sc.nextLine();
+		int rating = inputRating("새 평점(" + item.getRating()+ "): ");
+		
+		YumDTO updateItem = new YumDTO(inputId, name, visitDate, menu, rating, item.getRegDate());
+		
+		boolean result = service.updateYum(updateItem);
+		System.out.println(result ? "수정 완료" : "수정 실패");
+	}
+
+	// 삭제
+	private void deleteYum() {
+
+	}
+
+}

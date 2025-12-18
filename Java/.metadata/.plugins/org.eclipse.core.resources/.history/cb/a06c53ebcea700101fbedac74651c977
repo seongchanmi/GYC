@@ -1,0 +1,15 @@
+package Test;
+
+public class LibraryDTO {
+	
+	private int id;
+	private String title;
+	private String author;
+	private String publishDate;
+	private int rating;
+	
+	public LibraryDTO() {}
+	
+	
+
+}

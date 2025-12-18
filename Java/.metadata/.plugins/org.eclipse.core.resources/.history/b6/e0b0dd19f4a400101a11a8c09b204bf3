@@ -1,0 +1,40 @@
+package Ex1;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TripDAO {
+
+	public List<TripDTO> selectBySeason(String ans) {
+
+		List<TripDTO> list = new ArrayList<>();
+		String sql = "select * from trip where season = ? and rating >= 4.5 order by rating desc";
+		// 여기에서 rating >= 4.5로 불러올 조건을 줬기 때문에 Controller의 outTripList에서 "4.5이상인 추천 여행지가
+		// 없음"의 구문을 넣는 것임
+
+		try (Connection conn = DBUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			ResultSet rs = pstmt.executeQuery();
+			pstmt.setString(1, ans);
+
+			while (rs.next()) {
+				String name = rs.getString("name");
+				String location = rs.getString("location");
+				String season = rs.getString("season");
+				double rating = rs.getDouble("rating");
+
+				TripDTO dto = new TripDTO(name, location, season, rating);
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			System.out.println("오류: " + e.getMessage());
+		}
+		return list;
+	}
+
+}

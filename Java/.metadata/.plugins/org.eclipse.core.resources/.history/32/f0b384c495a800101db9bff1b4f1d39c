@@ -1,0 +1,20 @@
+package ch1;
+
+import java.util.List;
+
+public class YumService {
+	
+	private YumDAO dao = new YumDAO();
+	
+
+	//전체 조회
+	public List<YumDTO> getAllYum() {
+		return dao.selectAllYum();
+	}
+
+	//등록
+	public boolean addYum(YumDTO dto) {
+		return dao.insertYum(dto);
+	}
+
+}

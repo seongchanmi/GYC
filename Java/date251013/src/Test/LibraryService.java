@@ -1,0 +1,13 @@
+package Test;
+
+import java.util.List;
+
+public class LibraryService {
+
+	private LibraryDAO dao = new LibraryDAO();
+
+	public List<LibraryDTO> getAllLibrary() {
+		return dao.selectAllLibrary();
+	}
+
+}

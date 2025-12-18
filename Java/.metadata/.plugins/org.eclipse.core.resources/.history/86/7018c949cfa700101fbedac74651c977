@@ -1,0 +1,78 @@
+package Test;
+
+import java.sql.Date;
+
+public class LibraryDTO {
+	
+	private int id;
+	private String title;
+	private String author;
+	private Date publishDate;
+	private int rating;
+	
+	public LibraryDTO() {}
+
+	public LibraryDTO(String title, String author, Date publishDate, int rating) {
+		this.title = title;
+		this.author = author;
+		this.publishDate = publishDate;
+		this.rating = rating;
+	}
+
+	public LibraryDTO(int id, String title, String author, Date publishDate, int rating) {
+		this.id = id;
+		this.title = title;
+		this.author = author;
+		this.publishDate = publishDate;
+		this.rating = rating;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("관리번호: %d | 제목: %s | 저자: %s | 출판일: %s | 평점: %d", id, title, author, publishDate, rating);
+	}
+	
+	
+	
+
+}

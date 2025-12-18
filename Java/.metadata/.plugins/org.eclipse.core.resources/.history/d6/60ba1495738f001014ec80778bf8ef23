@@ -1,0 +1,39 @@
+package ch2;
+
+
+/*
+ * 반복문이란?
+ * 정해진 횟수만큼 반복
+ * 
+ * for(초기값; 조건; 증감값) {
+ * 실행문
+ * }
+ * 
+ */
+
+
+public class ForEx1 {
+
+	public static void main(String[] args) {
+		//1~5까지
+		//초기값: 뭐부터 시작할 건지
+		//i++: 후위 증가 연산자. ++가 앞에 붙는 것도 있대.
+		//i++: 변수 i에 1씩 증가시킨다
+		//i--: 1씩감소. 후위 감소 연산자
+		for(int i=1; i<=5; i++) {
+			System.out.print(i + ",");
+		}
+		//왜 0부터 아니고 1부터..?
+		
+		
+		System.out.println("=========================");
+		
+		//오하 3번출력
+		
+		for(int i=1; i<=50; i++) {
+			System.out.print("오하");
+		}
+
+	}
+
+}

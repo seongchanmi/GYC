@@ -1,0 +1,16 @@
+package Ex1;
+
+import ch2.TripController_2;
+
+public class TripMain {
+
+	public static void main(String[] args) {
+
+		// TripController controller = new TripController();
+		// controller.run();
+		
+		new TripController().run();
+		
+	}
+
+}

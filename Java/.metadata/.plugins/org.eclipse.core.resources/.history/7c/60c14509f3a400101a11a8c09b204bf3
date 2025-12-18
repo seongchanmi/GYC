@@ -1,0 +1,12 @@
+package Ex1;
+
+import java.util.List;
+
+public class TripService {
+
+	public List<TripDTO> getAllTrip(String ans) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
