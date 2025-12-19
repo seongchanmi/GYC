@@ -7,6 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchPostDetail, deletePost } from '../../api/postsApi';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
+import PostComments from '../../components/comments/PostComments';
 
 /*
 Url에서 id를 읽고 서버에서 해당 데이터를 가져옴
@@ -59,6 +60,9 @@ function PostDetail() {
 
                 {/* content */}
                 <PostDetailContent post={post} apiBasic={apiBasic} />
+                
+                {/* 댓글 */}
+                <PostComments postId={postId} />
 
                 {/* 수정 / 삭제 버튼 */}
                 <PostDetailButtons id={postId} deleteMutation={deleteMutation} />

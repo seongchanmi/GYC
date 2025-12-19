@@ -2,9 +2,9 @@ import { Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 import { Link } from "react-router";
 import dayjs from 'dayjs';
 
-function PostTable({ posts }) { // 매개변수에 {posts}로 안하면 props.posts로 구조분해를 해야함
+function PostTable({ posts, apiBasic }) { // 매개변수에 {posts}로 안하면 props.posts로 구조분해를 해야함
 
-    const lists = posts ? posts : []; // 없으면 빈배열
+    const lists = posts ? posts : []; // 없으면 빈배열 
 
     return (
         <TableContainer sx={{ mt: 3 }}>
@@ -32,11 +32,27 @@ function PostTable({ posts }) { // 매개변수에 {posts}로 안하면 props.po
                 <TableBody>
                     {
                         lists.map(({ id, imageUrl, title, readCount, createdAt }) => (
+
                             <TableRow key={id}
-                                hover sx={{ '& td': { fontSize: 15, borderBottom: '1px soild' } }}
+                                hover sx={{ '& td': { fontSize: 15, borderBottom: '1px solid #e0e0e0' } }}
                             >
                                 <TableCell align="center">{id}</TableCell>
-                                <TableCell align="center">이미지</TableCell>
+                                <TableCell align="center"> {imageUrl ? (
+                                    <img
+                                        src={`${apiBasic}${imageUrl}`}
+                                        alt={title}
+                                        style={{
+                                            width: 60,
+                                            height: 60,
+                                            objectFit: 'cover',
+                                            borderRadius: 8
+                                        }}
+                                    />
+                                ) : (
+                                    <Typography sx={{ fontSize: 12, color: '#aaa' }}>
+                                        no image
+                                    </Typography>
+                                )}</TableCell>
                                 <TableCell>
                                     <Typography component={Link} to={`/posts/${id}`}
                                         sx={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit', '&:hover': { color: 'primary.main' } }}
