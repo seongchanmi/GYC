@@ -42,7 +42,7 @@ public class PostCommentController {
             @PathVariable Long commentId,
             @Valid @RequestBody PostCommentUpdateRequest request
             ) {
-        PostCommentResponse response = postCommentService.update(commentId,request);
+        PostCommentResponse response = postCommentService.update(commentId, request);
         return ResponseEntity.ok(response);
     }
 
