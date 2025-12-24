@@ -1,5 +1,6 @@
 package com.example.springboard.dto.request.comment;
 
+import com.example.springboard.domain.Member;
 import com.example.springboard.domain.Post;
 import com.example.springboard.domain.PostComments;
 import jakarta.validation.constraints.NotBlank;
