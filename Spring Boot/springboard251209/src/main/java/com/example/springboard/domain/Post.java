@@ -23,15 +23,17 @@ public class Post {
     @Column(name ="post_id")
     private Long id;
 
-    // private Member member; // 회원가입만 한사람만 글을 쓸 수 있게 한다던지와 같이 로그인과 회원과 관련된 속성
+    // 회원1: 게시글N
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member; // 회원가입만 한사람만 글을 쓸 수 있게 한다던지와 같이 로그인과 회원과 관련된 속성
 
     // 제목, 필수 작성
     @Column(name = "title", nullable = false, length = 200)
     private String title;
 
-    // 작성글. 대용량 글(@Lob)
-    @Lob
-    @Column(name = "content", nullable = false)
+    // 작성글. 대용량 글
+    @Column(name = "content", nullable = false, length = 4000)
     private String content;
 
     // 첨부 이미지로 DB에 경로만 저장
