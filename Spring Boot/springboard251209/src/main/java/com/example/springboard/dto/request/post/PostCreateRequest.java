@@ -1,5 +1,6 @@
 package com.example.springboard.dto.request.post;
 
+import com.example.springboard.domain.Member;
 import com.example.springboard.domain.Post;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,8 +22,9 @@ public class PostCreateRequest {
     private String content;
     private String imageUrl;
 
-    public Post toEntity() {
+    public Post toEntity(Member member) {
         return Post.builder()
+                .member(member) // 작성자
                 .title(title)
                 .content(content)
                 .imageUrl(imageUrl)

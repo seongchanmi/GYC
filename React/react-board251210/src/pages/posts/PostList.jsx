@@ -1,5 +1,6 @@
+import React from 'react';
 import { Box, Paper, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import { useState } from 'react';
 import { fetchPosts } from '../../api/postsApi';
 import Loader from '../../components/common/Loader';
@@ -7,6 +8,7 @@ import ErrorMessage from '../../components/common/ErrorMessage';
 import PostSearch from '../../components/posts/PostSearch';
 import PostTable from '../../components/posts/PostTable';
 import PostPagination from '../../components/posts/PostPagination';
+import { useMe } from '../../hooks/useMe';
 
 
 
@@ -21,8 +23,10 @@ function PostList() {
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ['posts', page, keyword], // page, keyword가 바뀌면 새로운 데이터를 가ㅈㅕ옴
         queryFn: () => fetchPosts({ page, size: 10, keyword }),
-        keepPreviousData: true // 페이지 전환시(혹은 이동시) 기존 데이터 유지. 
+        placeholderData: keepPreviousData // 페이지 전환시(혹은 이동시) 기존 데이터 유지. 
     });
+
+    const { data: me, isLoading: meIsLoading } = useMe();
 
     if (isLoading) return <Loader />;
     if (isError) return <ErrorMessage error={error} />;
@@ -80,7 +84,9 @@ function PostList() {
                         page={page}
                         totalPages={totalPages}
                         onPrev={handlePrev}
-                        onNext={handleNext} />
+                        onNext={handleNext}
+                        logined = { !meIsLoading && !!me } // 로딩 상태 true, 데이터 true 일 때 -> true
+                        />
                 </Box>
 
             </Paper>

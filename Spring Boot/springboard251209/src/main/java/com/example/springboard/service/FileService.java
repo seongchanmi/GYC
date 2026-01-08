@@ -64,8 +64,7 @@ public class FileService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드 실패",e);
         }
-
-        }
+    }
 
         // 이미지 삭제
     public void deleteImage (String imageUrl) {

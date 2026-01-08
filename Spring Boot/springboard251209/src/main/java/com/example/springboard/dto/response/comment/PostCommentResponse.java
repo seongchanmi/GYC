@@ -1,6 +1,7 @@
 package com.example.springboard.dto.response.comment;
 
 import com.example.springboard.domain.PostComments;
+import com.example.springboard.dto.response.common.MemberResponse;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 public class PostCommentResponse {
 
     private Long id;
+    private MemberResponse author;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -22,6 +24,7 @@ public class PostCommentResponse {
     public static PostCommentResponse from(PostComments comments) {
         return PostCommentResponse.builder()
                 .id(comments.getId())
+                .author(MemberResponse.from(comments.getMember()))
                 .content(comments.getContent())
                 .createdAt(comments.getCreatedAt())
                 .updatedAt(comments.getUpdatedAt())

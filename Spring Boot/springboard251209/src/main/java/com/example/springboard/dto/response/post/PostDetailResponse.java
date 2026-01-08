@@ -1,6 +1,7 @@
 package com.example.springboard.dto.response.post;
 
 import com.example.springboard.domain.Post;
+import com.example.springboard.dto.response.common.MemberResponse;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ public class PostDetailResponse {
 
     private Long id;
     private String title;
+    private MemberResponse author;
     private String content;
     private String imageUrl;
     private Integer readCount;
@@ -25,6 +27,7 @@ public class PostDetailResponse {
         return PostDetailResponse.builder()
                 .id(post.getId())
                 .title(post.getTitle())
+                .author(MemberResponse.from(post.getMember())) // 작성자 매핑
                 .content(post.getContent())
                 .imageUrl(post.getImageUrl())
                 .readCount(post.getReadCount())

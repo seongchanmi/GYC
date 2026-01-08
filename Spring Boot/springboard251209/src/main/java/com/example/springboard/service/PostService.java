@@ -14,10 +14,10 @@ import org.jspecify.annotations.Nullable;
 public interface PostService {
 
     // 프론트에서 넘어온 PostCreateRequest(제목, 내용, 이미지주소)를 받아 저장 후 전체 데이터로 응답
-    // 게시글 생성
+    // 게시글 생성 (회원만)
     // 프론트에서 넘어온 데이터를 PostCreateRequest DTO로 받아 저장 후 응답
     // Request DTO -> entity 변환, .save() :JPA repository가 가지고 있는 저장 기능 -> response DTO 반환
-    PostDetailResponse createPost(PostCreateRequest request);
+    PostDetailResponse createPost(PostCreateRequest request, Long memberId);
 
     // 게시글 목록 조회 + 검색 + 페이징
     PageResponse<PostListResponse> getPostList(@Min(0) int page, @Max(10) int size, String keyword);
@@ -25,11 +25,10 @@ public interface PostService {
     // 게시글 상세 조회 + 조회수 증가
     PostDetailResponse getPostDetail(Long id);
 
-    PostDetailResponse updatePost(Long id, PostUpdateRequest request);
+    // 게시글 수정(회원만)
+    PostDetailResponse updatePost(Long id, PostUpdateRequest request, Long memberId);
 
-    void deletePost(Long id);
+    // 게시글 삭제(회원만)
+    void deletePost(Long id, Long memberId);
 
-    // 게시글 삭제
-
-    // 게시글 수정
 }

@@ -14,11 +14,11 @@ public interface PostCommentService {
     List<PostCommentResponse> getComments(Long postId);
 
     // 작성
-    PostCommentResponse create(Long postId, PostCommentCreateRequest request);
+    PostCommentResponse create(Long postId, PostCommentCreateRequest request, Long memberId);
 
     // 수정
-    PostCommentResponse update(Long commentId, PostCommentUpdateRequest request);
+    PostCommentResponse update(Long commentId, PostCommentUpdateRequest request, Long memberId);
 
     // 삭제
-    void delete(Long commentId);
+    void delete(Long commentId, Long memberId);
 }

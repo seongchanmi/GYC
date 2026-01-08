@@ -1,8 +1,25 @@
+import React from 'react';
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import { TiMessages } from "react-icons/ti";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMe } from "../hooks/useMe";
+import { clearAuth } from "../api/authApi";
 
 function AppLayout() {
+
+    const queryClient = useQueryClient();
+    // 사용자 정보 훅
+    const { data: me, isLoading: meIsLoading } = useMe();
+    const navigate = useNavigate();
+
+    // 로그아웃 이벤트 핸들러
+    const handleLogout = () => {
+        clearAuth();
+        queryClient.setQueryData(["me"], null); // 즉시 UI 반영
+        navigate("/posts");
+    }
+
     return (
         <Box sx={{ minHeight: '100vh', bgcolor: '#e6e6fa', pb: 6 }}>
             {/* header */}
@@ -38,8 +55,16 @@ function AppLayout() {
                     </Box>
                     {/* 오른쪽 메뉴: 회원가입/로그인 */}
                     <Stack direction="row" spacing={1.5} alignItems="center">
-                        <Button component={Link} to="/posts" variant="text" sx={{ fontWeight: 500, color: 'inherit', fontSize: 14 }}>로그인</Button>
-                        <Button component={Link} to="/posts" variant="text" sx={{ fontWeight: 500, color: 'inherit', fontSize: 14 }}>회원가입</Button>
+                        {!meIsLoading && me ? (
+                            <Button component={Link} to="/posts" variant="text" sx={{ fontWeight: 500, color: 'inherit', fontSize: 14 }}
+                            onClick={handleLogout}>로그아웃</Button>
+                        ) : (
+                            <>
+                                <Button component={Link} to="/auth/login" variant="text" sx={{ fontWeight: 500, color: 'inherit', fontSize: 14 }}>로그인</Button>
+                                <Button component={Link} to="/auth/register" variant="text" sx={{ fontWeight: 500, color: 'inherit', fontSize: 14 }}>회원가입</Button>
+                            </>
+                        )
+                        }
                     </Stack>
                 </Container>
             </Box>

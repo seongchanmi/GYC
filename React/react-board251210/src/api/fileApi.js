@@ -12,7 +12,7 @@ export async function uploadImage( file ) {
     formData.append('file', file)
     const res = await api.post('/api/files/image', formData, {
         headers: {
-        'Content-type': 'multipart/form-data'
+        'Content-type': 'multipart/form-data' 
         } // headers는 생략해도 된다~
     });
     return res.data; // { imageUrl: "...png" }

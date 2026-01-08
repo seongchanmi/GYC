@@ -1,10 +1,12 @@
 package com.example.springboard.service.impl;
 
+import com.example.springboard.domain.Member;
 import com.example.springboard.domain.Post;
 import com.example.springboard.domain.PostComments;
 import com.example.springboard.dto.request.comment.PostCommentCreateRequest;
 import com.example.springboard.dto.request.comment.PostCommentUpdateRequest;
 import com.example.springboard.dto.response.comment.PostCommentResponse;
+import com.example.springboard.repository.MemberRepository;
 import com.example.springboard.repository.PostCommentRepository;
 import com.example.springboard.repository.PostRepository;
 import com.example.springboard.service.PostCommentService;
@@ -23,6 +25,14 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     private final PostRepository postRepository;
     private final PostCommentRepository postCommentRepository;
+    private final MemberRepository memberRepository;
+
+    // 공통 로그인 체크
+    private void requiredLogin(Long memberId) {
+        if(memberId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
+        }
+    }
 
     //조회
     @Override
@@ -41,13 +51,20 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     // 작성
     @Override
-    public PostCommentResponse create(Long postId, PostCommentCreateRequest request){
+    public PostCommentResponse create(Long postId, PostCommentCreateRequest request, Long memberId){
+        //로그인이 됐는지, 안됐는지 확인
+        requiredLogin(memberId);
+
+        // 댓글 작성을 위한 로그인 권한 확인
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."));
+
         // 해당 게시글 탐색 -> 없으면 404
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾지 못했습니다."));
 
         // DTO -> entity
-        PostComments comments = request.toEntity(post);
+        PostComments comments = request.toEntity(post, member);
 
         // 저장
         PostComments saved = postCommentRepository.save(comments);
@@ -58,10 +75,18 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     // 수정
     @Override
-    public PostCommentResponse update(Long commentId, PostCommentUpdateRequest request) {
+    public PostCommentResponse update(Long commentId, PostCommentUpdateRequest request, Long memberId) {
+        //로그인이 됐는지, 안됐는지 확인
+        requiredLogin(memberId);
+
         // 댓글 탐색
         PostComments postComments = postCommentRepository.findById(commentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"댓글을 찾을 수 없습니다."));
+
+        // 댓글 수정 권한 확인
+        if(!postComments.getMember().getId().equals(memberId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "댓글 수정 권한이 없습니다.");
+        }
 
         // 댓글 수정
         postComments.changeContent(request.getContent());
@@ -71,10 +96,18 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     // 삭제
     @Override
-    public void delete(Long commentId){
+    public void delete(Long commentId, Long memberId){
+        //로그인이 됐는지, 안됐는지 확인
+        requiredLogin(memberId);
+
         // 댓글 탐색
         PostComments postComments = postCommentRepository.findById(commentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"댓글을 찾을 수 없습니다."));
+
+        // 댓글 삭제 권한 확인
+        if(!postComments.getMember().getId().equals(memberId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "댓글 수정 권한이 없습니다.");
+        }
 
         // 삭제
         postCommentRepository.delete(postComments);

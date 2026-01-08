@@ -17,7 +17,7 @@ export async function fetchPosts({ page = 0, size = 10, keyword = '' }) { // 값
 
 // 게시글 상세 내용 PostDetail.jsx
 export async function fetchPostDetail(id) {
-    const res = await api.get(`/api/posts/${id}`);
+    const res = await api.get(`/api/posts/${id}`); 
     return res.data;
 }
 

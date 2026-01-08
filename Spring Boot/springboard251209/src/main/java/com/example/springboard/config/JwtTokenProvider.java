@@ -13,7 +13,6 @@ import java.util.Date;
 
 // 토큰 발급소: 토큰 생성, 검증. 정보를 꺼내는 일을 함
 // 서버 -> 토큰 발급 -> 요청할 때마다 토큰 확인
-
 @Component
 public class JwtTokenProvider {
 
@@ -32,7 +31,7 @@ public class JwtTokenProvider {
     ) {
         this.secret = secret;
         this.expiration = expiration;
-    }
+    } // value 어노테이션 사용하면 final이랑 충돌이 일어나서 직접 주입해준다. (무슨 말인지는 모르겠음)
 
     // 객체 생성 후 자동 실행(초기화)
     @PostConstruct

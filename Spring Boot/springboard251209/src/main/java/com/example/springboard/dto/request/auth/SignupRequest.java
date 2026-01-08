@@ -1,10 +1,12 @@
 package com.example.springboard.dto.request.auth;
 
+import com.example.springboard.domain.Member;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
@@ -22,4 +24,12 @@ public class SignupRequest {
     @NotBlank(message = "닉네임은 필수입니다.")
     @Size(min = 2, max = 10, message = "닉네임은 2~10자 사이만 가능합니다.")
     private String nickname;
+
+    public Member toEntity(String encodedPassword) {
+        return Member.builder()
+                .email(email)
+                .password(encodedPassword)
+                .nickname(nickname)
+                .build();
+    }
 }
