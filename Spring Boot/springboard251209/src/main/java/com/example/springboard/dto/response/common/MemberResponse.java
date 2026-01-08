@@ -6,7 +6,6 @@ import lombok.*;
 /*
 게시글, 댓글, 회원 페이지 등 작성자 공통 정보
 나중에 작성자 정보가 바뀌면 여기만 변경해주면 됨
-
  */
 
 @Getter
@@ -17,7 +16,7 @@ import lombok.*;
 public class MemberResponse {
 
     private Long id;
-    private String nickName;
+    private String nickname;
 
     // entity -> 작성자 DTO
     public static MemberResponse from(Member member) {
@@ -25,7 +24,7 @@ public class MemberResponse {
 
         return MemberResponse.builder()
                 .id(member.getId())
-                .nickName(member.getNickname())
+                .nickname(member.getNickname())
                 .build();
     }
 

@@ -4,6 +4,8 @@ import AppLayout from '../layouts/AppLayout'
 import PostList from '../pages/posts/PostList'
 import PostForm from '../pages/posts/PostForm'
 import PostDetail from '../pages/posts/PostDetail'
+import RegisterPage from '../pages/auth/RegisterPage'
+import LoginPage from '../pages/auth/LoginPage'
 
 export const router = createBrowserRouter([
     {
@@ -31,6 +33,14 @@ export const router = createBrowserRouter([
             {
                 path: 'posts/:id/edit',
                 element: <PostForm mode="edit" />
+            },
+            {
+                path: 'auth/login',
+                element: <LoginPage />
+            },
+            {
+                path: 'auth/register',
+                element: <RegisterPage />
             }
         ]
     }

@@ -13,7 +13,7 @@ JWT 토큰만 전달
 "tokenType":"Bearer" // 토큰 타입
 }
 
- */
+*/
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

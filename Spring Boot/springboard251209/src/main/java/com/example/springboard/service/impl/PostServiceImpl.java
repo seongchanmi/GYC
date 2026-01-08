@@ -1,11 +1,14 @@
 package com.example.springboard.service.impl;
 
+import com.example.springboard.domain.Member;
 import com.example.springboard.domain.Post;
 import com.example.springboard.dto.request.post.PostCreateRequest;
 import com.example.springboard.dto.request.post.PostUpdateRequest;
 import com.example.springboard.dto.response.common.PageResponse;
 import com.example.springboard.dto.response.post.PostDetailResponse;
 import com.example.springboard.dto.response.post.PostListResponse;
+import com.example.springboard.repository.MemberRepository;
+import com.example.springboard.repository.PostCommentRepository;
 import com.example.springboard.repository.PostRepository;
 import com.example.springboard.service.FileService;
 import com.example.springboard.service.PostService;
@@ -28,14 +31,30 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final FileService fileService;
+    private final MemberRepository memberRepository;
+    private final PostCommentRepository postCommentRepository;
+
+    // 공통 로그인 체크
+    private void requiredLogin(Long memberId) {
+        if(memberId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
+        }
+    }
 
     // 게시글 생성
     // 프론트에서 넘어온 데이터를 PostCreateRequest DTO로 받아 저장 후 응답
     // Request DTO -> entity 변환, .save() :JPA repository가 가지고 있는 저장 기능 -> response DTO 반환
     @Override
-    public PostDetailResponse createPost(PostCreateRequest request) {
+    public PostDetailResponse createPost(PostCreateRequest request, Long memberId) {
+        //로그인이 됐는지, 안됐는지 확인
+        requiredLogin(memberId);
+
+        // 게시글 작성 권한 확인
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."));
+
         // DTO를 entity로 변환
-        Post post = request.toEntity();
+        Post post = request.toEntity(member);
         // 저장
         Post saved = postRepository.save(post);
         // DTO 변환해서 반환
@@ -88,9 +107,17 @@ public class PostServiceImpl implements PostService {
 
     // 게시글 수정
     @Override
-    public PostDetailResponse updatePost(Long id, PostUpdateRequest request) {
+    public PostDetailResponse updatePost(Long id, PostUpdateRequest request, Long memberId) {
+        //로그인이 됐는지, 안됐는지 확인
+        requiredLogin(memberId);
+
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 글을 찾을 수 없습니다."));
+
+        // 게시글 수정 권한 확인
+        if (!post.getMember().getId().equals(memberId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "게시글 수정 권한이 없습니다.");
+        }
 
         // 엔티티 업데이트 메서드
         post.update(request.getTitle(), request.getContent(), request.getImageUrl());
@@ -101,10 +128,21 @@ public class PostServiceImpl implements PostService {
 
     // 게시글 삭제
     @Override
-    public void deletePost(Long id) {
+    public void deletePost(Long id, Long memberId) {
+        //로그인이 됐는지, 안됐는지 확인
+        requiredLogin(memberId);
+
         // 아이디 조회
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 글을 찾을 수 없습니다."));
+
+        // 게시글 삭제 권한 확인
+        if (!post.getMember().getId().equals(memberId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "게시글 삭제 권한이 없습니다.");
+        }
+
+        // 댓글 먼저 삭제
+        postCommentRepository.deleteByPostId(id);
 
         // 삭제
         fileService.deleteImage(post.getImageUrl());

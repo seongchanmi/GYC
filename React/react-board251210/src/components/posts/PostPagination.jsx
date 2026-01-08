@@ -1,7 +1,8 @@
+import React from 'react';
 import { Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router";
 
-function PostPagination({ page, totalPages, onPrev, onNext }) {
+function PostPagination({ page, totalPages, onPrev, onNext, logined }) {
     return (
         <Stack direction="row" alignItems='center' justifyContent='space-between' sx={{ mt: 1 }}>
 
@@ -25,7 +26,10 @@ function PostPagination({ page, totalPages, onPrev, onNext }) {
             </Stack>
 
             {/* 새 글 작성 버튼 */}
-            <Button component={Link} to='/posts/new' variant='outlined' size='small' sx={{ borderRadius: 999, color: '#937' }}>새 글 작성</Button>
+            { 
+            logined && <Button component={Link} to='/posts/new' variant='outlined' size='small' sx={{ borderRadius: 999, color: '#937' }}>새 글 작성</Button>
+            }
+        
         </Stack>
     );
 }

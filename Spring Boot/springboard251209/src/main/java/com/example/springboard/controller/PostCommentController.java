@@ -7,6 +7,7 @@ import com.example.springboard.service.PostCommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,32 +27,35 @@ public class PostCommentController {
         return ResponseEntity.ok(postCommentService.getComments(postId));
     }
 
-    // 댓글 작성
+    // 댓글 작성 (회원만)
     @PostMapping
     public ResponseEntity<PostCommentResponse> createComment(
             @PathVariable Long postId,
-            @Valid @RequestBody PostCommentCreateRequest request
+            @Valid @RequestBody PostCommentCreateRequest request,
+            @AuthenticationPrincipal Long memberId
             ) {
-    return ResponseEntity.ok(postCommentService.create(postId, request));
+    return ResponseEntity.ok(postCommentService.create(postId, request, memberId));
     }
 
-    // 댓글 수정
+    // 댓글 수정 (회원만)
     @PutMapping("/{commentId}")
     public ResponseEntity<PostCommentResponse> updateComment(
             @PathVariable Long postId,
             @PathVariable Long commentId,
-            @Valid @RequestBody PostCommentUpdateRequest request
+            @Valid @RequestBody PostCommentUpdateRequest request,
+            @AuthenticationPrincipal Long memberId
             ) {
-        PostCommentResponse response = postCommentService.update(commentId, request);
+        PostCommentResponse response = postCommentService.update(commentId, request, memberId);
         return ResponseEntity.ok(response);
     }
 
-    // 댓글 삭제
+    // 댓글 삭제 (회원만)
     @DeleteMapping("/{commentId}")
     public ResponseEntity<Void> deleteComment(
-            @PathVariable Long commentId
+            @PathVariable Long commentId,
+            @AuthenticationPrincipal Long memberId
     ) {
-        postCommentService.delete(commentId);
+        postCommentService.delete(commentId, memberId);
         return ResponseEntity.noContent().build();
     }
 

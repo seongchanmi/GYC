@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Paper } from '@mui/material';
 import PostDetailHeader from '../../components/posts/PostDetailHeader';
 import PostDetailContent from '../../components/posts/PostDetailContent';
@@ -8,8 +9,9 @@ import { fetchPostDetail, deletePost } from '../../api/postsApi';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import PostComments from '../../components/comments/PostComments';
+import { useMe } from '../../hooks/useMe';
 
-/*
+/* 
 Url에서 id를 읽고 서버에서 해당 데이터를 가져옴
 화면에 내용을 보여주고
 삭제 버튼 클릭시 삭제 Api 함수 호출 후 목록으로 돌아감
@@ -23,6 +25,8 @@ function PostDetail() {
     const queryClient = useQueryClient();
 
     const apiBasic = import.meta.env.VITE_API_BASE_URL;
+
+    const { data:me, isLoading:meIsLoading } = useMe();
 
     // Api 관련 TanStack Query =================
     // 상세 내용 조회
@@ -46,6 +50,15 @@ function PostDetail() {
     if (isLoading) return <Loader />
     if (isError || !post) return <ErrorMessage error={error} />
 
+    // 본인 글 확인
+    const myId = me?.id;
+    const authorId = post?.author?.id;
+
+    const loginedEdit = !meIsLoading && 
+    myId != null && 
+    authorId != null && 
+    Number(authorId) === Number(myId);
+
     return (
         <Box>
             <Paper sx={{
@@ -56,7 +69,7 @@ function PostDetail() {
                 boxShadow: '0 16px 40px rgba(0,0,0,0.07)'
             }}>
                 {/* 머릿말: 제목, 작성자, 작성일, 수정일... */}
-                <PostDetailHeader post={post} />
+                <PostDetailHeader post={post}  />
 
                 {/* content */}
                 <PostDetailContent post={post} apiBasic={apiBasic} />
@@ -65,7 +78,7 @@ function PostDetail() {
                 <PostComments postId={postId} />
 
                 {/* 수정 / 삭제 버튼 */}
-                <PostDetailButtons id={postId} deleteMutation={deleteMutation} />
+                <PostDetailButtons id={postId} deleteMutation={deleteMutation} loginedEdit={loginedEdit} />
             </Paper>
         </Box>
     );

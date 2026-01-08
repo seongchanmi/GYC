@@ -1,3 +1,4 @@
+import React from 'react';
 import { Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Link } from "react-router";
 import dayjs from 'dayjs';
@@ -31,7 +32,7 @@ function PostTable({ posts, apiBasic }) { // 매개변수에 {posts}로 안하�
                 {/* 테이블 본문 */}
                 <TableBody>
                     {
-                        lists.map(({ id, imageUrl, title, readCount, createdAt }) => (
+                        lists.map(({ id, imageUrl, title, readCount, createdAt, author }) => (
 
                             <TableRow key={id}
                                 hover sx={{ '& td': { fontSize: 15, borderBottom: '1px solid #e0e0e0' } }}
@@ -61,9 +62,13 @@ function PostTable({ posts, apiBasic }) { // 매개변수에 {posts}로 안하�
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <Chip label='작성자' size='small' variant='outlined' sx={{ borderRadius: 999, ps: 2, height: 25, fontSize: 13 }}>
-                                        작성자
-                                    </Chip>
+                                    {
+                                        author?.nickname && author.nickname !== '익명' ? (
+                                            <Chip label={author.nickname} size='small' variant='outlined' sx={{ borderRadius: 999, ps: 2, height: 25, fontSize: 13, bgcolor: 'primary.main', color: '#fff' }} />
+                                        ) : (
+                                            <Typography sx={{ fontSize: 14 }}>{author.nickname ||'익명'}</Typography>
+                                        )
+                                    }
                                 </TableCell>
                                 <TableCell align="center">{readCount}</TableCell>
                                 <TableCell align="center" sx={{ color: '#929299ff' }}>

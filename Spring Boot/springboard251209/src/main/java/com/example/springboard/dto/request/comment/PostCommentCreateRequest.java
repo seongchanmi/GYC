@@ -19,8 +19,9 @@ public class PostCommentCreateRequest {
     private String content;
 
     // dto -> entity 로 변환
-    public PostComments toEntity(Post post) {
+    public PostComments toEntity(Post post, Member member) {
         return PostComments.builder()
+                .member(member)
                 .post(post)
                 .content(content)
                 .build();

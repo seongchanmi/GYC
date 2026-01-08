@@ -1,8 +1,9 @@
+import React from 'react';
 import { Box, Chip, Divider, Typography } from "@mui/material";
 import dayjs from "dayjs";
 
 function PostDetailHeader({ post }) {
-    const { title, readCount, createdAt, updatedAt } = post;
+    const { title, readCount, createdAt, updatedAt, author } = post;
 
     return (
         <>
@@ -15,7 +16,7 @@ function PostDetailHeader({ post }) {
                     작성자:
                 </Typography>
 
-                <Chip label='한라봉' variant='filled' size='small' sx={{ ml: 0.5, px: 1.5, borderRadius: 999, bgcolor: 'secondary.main', color: '#fff' }} />
+                <Chip label={author.nickname} variant='filled' size='small' sx={{ ml: 0.5, px: 1.5, borderRadius: 999, bgcolor: 'secondary.main', color: '#fff' }} />
 
                 <Typography variant='body2' sx={{ color: '#666', ml: 5 }}>조회수: { readCount }</Typography>
             </Box>
